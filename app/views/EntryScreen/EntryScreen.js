@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 
 //Authentication handler
-import authHandler from '../auth/AuthenticationHandler';
+import authHandler from '../../auth/AuthenticationHandler';
 
 // import screens
-import BottomNavigation from '../navigation/bottomNavigation';
-import BottomMusicWidget from '../views/BottomMusicWidget';
+import BottomNavigation from '../../navigation/bottomNavigation';
+import BottomMusicWidget from '../BottomMusicWidget/BottomMusicWidget';
 
 //Redux imports
 import {connect} from 'react-redux';
@@ -15,10 +15,10 @@ import {
   setRefreshToken,
   setLoadingTrue,
   setLoadingFalse,
-} from '../auth/authenticationSlice';
+} from '../../auth/authenticationSlice';
 
 //Navigations
-import LoginScreen from './Login';
+import LoginScreen from '../Login/Login';
 
 class EntryScreen extends Component {
   state = {refreshToken: ''};

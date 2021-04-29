@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 // import colors
-import Colors from '../utils/colors';
+import Colors from '../../utils/colors';
 
 export default function Home() {
   return (

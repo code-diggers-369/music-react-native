@@ -4,10 +4,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 // import screens
-import SplashScreen from '../views/SplashScreen';
-import BottomMusicWidget from '../views/BottomMusicWidget';
+import SplashScreen from '../views/SplashScreen/SplashScreen';
+import BottomMusicWidget from '../views/BottomMusicWidget/BottomMusicWidget';
 // import Login from '../views/Login';
-import EntryScreen from '../views/EntryScreen';
+import EntryScreen from '../views/EntryScreen/EntryScreen';
 
 // import bottom navigation
 // import BottomNavigation from './bottomNavigation';

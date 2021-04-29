@@ -9,10 +9,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Colors from '../utils/colors';
 
 // import screen
-import Home from '../views/Home';
-import Search from '../views/Search';
-import Library from '../views/Library';
-import Profile from '../views/Profile';
+import Home from '../views/Home/Home';
+import Search from '../views/Search/Search';
+import Library from '../views/Library/Library';
+import Profile from '../views/Profile/Profile';
 
 export default function bottomNavigation() {
   const Tab = createBottomTabNavigator();

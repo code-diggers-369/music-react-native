@@ -4,12 +4,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // import color
-import Color from '../utils/colors';
+import Color from '../../utils/colors';
 
 export default function BottomMusicWidget() {
   return (
     <View style={style.absoluteContainer}>
-      <Image source={require('../assets/logo.png')} style={style.image} />
+      <Image source={require('../../assets/logo.png')} style={style.image} />
 
       <View style={style.rightContainer}>
         <View style={style.nameContainer}>

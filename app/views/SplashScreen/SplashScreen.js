@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, StyleSheet, Image, SafeAreaView} from 'react-native';
-import Colors from '../utils/colors';
+import Colors from '../../utils/colors';
 
 export default function SplashScreen() {
   return (
     <SafeAreaView style={style.container}>
       <Image
-        source={require('../assets/logo2.png')}
+        source={require('../../assets/logo2.png')}
         style={{width: 250, height: 250}}
       />
 
