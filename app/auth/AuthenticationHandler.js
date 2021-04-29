@@ -1,4 +1,5 @@
 import {authorize, refresh} from 'react-native-app-auth';
+// import Storage from '@react-native-community/async-storage';
 
 class AuthenticationHandler {
   constructor() {
@@ -47,6 +48,8 @@ class AuthenticationHandler {
       const result = await authorize(this.spotifyAuthConfig);
       // alert(JSON.stringify(result));
       console.log(result);
+
+      // await Storage.setItem('access-token', result.accessToken);
       return result;
     } catch (error) {
       console.log(JSON.stringify(error));
@@ -57,6 +60,7 @@ class AuthenticationHandler {
     const result = await refresh(this.spotifyAuthConfig, {
       refreshToken: refreshToken,
     });
+    // await Storage.setItem('access-token', result.accessToken);
     return result;
   }
 }

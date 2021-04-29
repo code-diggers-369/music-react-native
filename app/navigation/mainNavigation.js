@@ -15,25 +15,17 @@ import EntryScreen from '../views/EntryScreen/EntryScreen';
 //
 
 const MainNavigation = () => {
-  const [viewSplashScreen, setViewSplashScreen] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setViewSplashScreen(false);
-    }, 3000);
-  }, []);
-
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {viewSplashScreen ? (
+        {/* {viewSplashScreen ? (
           <Stack.Screen
             name="Splash"
             component={SplashScreen}
             options={{headerShown: false}}
           />
-        ) : null}
+        ) : null} */}
 
         <Stack.Screen
           name="Entry"

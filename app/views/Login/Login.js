@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 
 //
 import AuthenticationHandler from '../../auth/AuthenticationHandler';
+import spotify from '../../auth/Spotify';
 
 //
 import {
