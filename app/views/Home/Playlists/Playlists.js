@@ -6,6 +6,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import {Chase, Flow, Plane, Wave} from 'react-native-animated-spinkit';
 
 // import fetchPlayListData
 import {getPlaylists} from '../../../utils/fetchData/fetchPlaylists';
@@ -19,8 +20,13 @@ export default function Playlists() {
   const [playlistData, setPlaylistData] = useState([]);
 
   useEffect(async () => {
-    // const data = await getPlaylists();
-    // setPlaylistData(data);
+    const data = await getPlaylists();
+
+    data.map(l => {
+      l.songsList.map(a => console.log(a.type));
+    });
+
+    setPlaylistData(data);
   }, []);
 
   return (
@@ -31,7 +37,7 @@ export default function Playlists() {
         })
       ) : (
         <View style={style.loadingContainer}>
-          <ActivityIndicator size="large" color="#fff" animating={true} />
+          <Wave color="#222327" size={70} />
         </View>
       )}
     </View>
@@ -43,7 +49,6 @@ const style = StyleSheet.create({
     color: '#fff',
   },
   loadingContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     height: height,

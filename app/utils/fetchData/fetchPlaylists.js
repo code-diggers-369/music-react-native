@@ -65,6 +65,7 @@ const getSongs = async playlistData => {
         id: ls.track.album.id,
         name: ls.track.album.name,
         images: ls.track.album.images,
+        type: ls.track.type,
       };
     });
 
