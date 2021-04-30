@@ -39,7 +39,8 @@ const MainNavigation = () => {
           options={{headerShown: false}}
         /> */}
       </Stack.Navigator>
-      <StatusBar backgroundColor={'transparent'} translucent={true} />
+      {/* <StatusBar backgroundColor={'transparent'} translucent={true} /> */}
+      <StatusBar backgroundColor={'transparent'} />
       {/* {!viewSplashScreen ? <BottomMusicWidget /> : null} */}
     </NavigationContainer>
   );
