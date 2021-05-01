@@ -14,9 +14,10 @@ target 'music' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNSpotify', :path => '../node_modules/rn-spotify-sdk'
 
-  pod 'RNEventEmitter', :path => '../node_modules/react-native-events'
+
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
 
   target 'musicTests' do
     inherit! :complete

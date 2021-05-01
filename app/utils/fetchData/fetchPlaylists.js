@@ -9,13 +9,22 @@ const getPlaylists = async () => {
       'hindi rap song',
       'bollywood 2020',
       'arijit songs',
-      'popular albums',
+      'electronic',
+      'alan walker',
+      'shreya ghoshal',
+      'honey singh',
+      'sonu nigam',
+      'mika singh',
+      'neha kakkar',
+      'shaan',
+      'shirley setia',
+      'gujarati',
     ];
 
     const playlistArray = [];
 
     for (let i = 0; i < 5; i++) {
-      const pageNo = Math.floor(Math.random() * 11);
+      const pageNo = Math.floor(Math.random() * 31);
       const playlistName =
         playlistSamples[Math.floor(Math.random() * playlistSamples.length)];
 
@@ -25,11 +34,13 @@ const getPlaylists = async () => {
         offset: pageNo,
       });
 
-      playlistArray.push({
-        playlistId: data.body.playlists.items[0].id,
-        playlistOwnerId: data.body.playlists.items[0].owner.id,
-        playlistName: data.body.playlists.items[0].name,
-      });
+      if (data.body.playlists.items.length > 0) {
+        playlistArray.push({
+          playlistId: data.body.playlists.items[0].id,
+          playlistOwnerId: data.body.playlists.items[0].owner.id,
+          playlistName: data.body.playlists.items[0].name,
+        });
+      }
     }
     const finalPlaylistData = [];
 
@@ -66,6 +77,7 @@ const getSongs = async playlistData => {
         name: ls.track.album.name,
         images: ls.track.album.images,
         type: ls.track.type,
+        uri: ls.track.uri,
       };
     });
 

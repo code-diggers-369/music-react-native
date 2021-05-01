@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import shortText from 'text-ellipsis';
 
+// import play function
+import {PlaySong} from '../../utils/playSongs/playSongs';
+
 export default function Playlist({listData}) {
   return (
     <View style={styles.container}>
@@ -21,7 +24,7 @@ export default function Playlist({listData}) {
         {listData
           ? listData.songsList.map((ls, i) => {
               return (
-                <TouchableOpacity key={i} onPress={() => console.log('cli')}>
+                <TouchableOpacity key={i} onPress={() => PlaySong(ls)}>
                   <Image
                     style={styles.albumScrollImg}
                     source={{

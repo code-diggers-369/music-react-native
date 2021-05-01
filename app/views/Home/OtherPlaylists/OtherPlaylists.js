@@ -6,7 +6,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import {Chase, Flow, Plane, Wave} from 'react-native-animated-spinkit';
+import {Wave} from 'react-native-animated-spinkit';
 
 // import fetchPlayListData
 import {getPlaylists} from '../../../utils/fetchData/fetchPlaylists';
@@ -22,10 +22,6 @@ export default function Playlists() {
   useEffect(async () => {
     const data = await getPlaylists();
 
-    data.map(l => {
-      l.songsList.map(a => console.log(a.type));
-    });
-
     setPlaylistData(data);
   }, []);
 
@@ -33,11 +29,15 @@ export default function Playlists() {
     <View>
       {playlistData.length > 0 ? (
         playlistData.map((list, index) => {
-          return <Playlist listData={list} key={index} />;
+          if (list.songsList.length > 2) {
+            return <Playlist listData={list} key={index} />;
+          } else {
+            return null;
+          }
         })
       ) : (
         <View style={style.loadingContainer}>
-          <Wave color="#222327" size={70} />
+          <Wave color="#fff" size={70} />
         </View>
       )}
     </View>

@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import MusicPlayer from 'react-native-video';
+
 // import color
 import Color from '../../utils/colors';
 
