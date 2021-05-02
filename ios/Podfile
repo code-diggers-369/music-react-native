@@ -21,6 +21,10 @@ target 'music' do
 
 
 
+  pod 'RNEventEmitter', :path => '../node_modules/react-native-events'
+
+  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
+
   target 'musicTests' do
     inherit! :complete
     # Pods for testing

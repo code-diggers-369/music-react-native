@@ -8,11 +8,10 @@ import {
   Image,
 } from 'react-native';
 import shortText from 'text-ellipsis';
-
-// import play function
-import {PlaySong} from '../../utils/playSongs/playSongs';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Playlist({listData}) {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>{listData.name}</Text>
@@ -24,7 +23,13 @@ export default function Playlist({listData}) {
         {listData
           ? listData.songsList.map((ls, i) => {
               return (
-                <TouchableOpacity key={i} onPress={() => PlaySong(ls)}>
+                <TouchableOpacity
+                  key={i}
+                  onPress={() =>
+                    navigation.navigate('AlbumPage', {
+                      data: ls,
+                    })
+                  }>
                   <Image
                     style={styles.albumScrollImg}
                     source={{

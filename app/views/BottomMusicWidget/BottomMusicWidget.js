@@ -1,5 +1,6 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {remote} from 'react-native-spotify-remote';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -7,19 +8,72 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Color from '../../utils/colors';
 
 export default function BottomMusicWidget() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [songData, setSongData] = useState({});
+
+  useEffect(async () => {
+    try {
+      remote.on('playerStateChanged', playerState => {
+        if (playerState.isPaused) {
+          setIsPlaying(false);
+        } else {
+          setIsPlaying(true);
+        }
+      });
+
+      remote.on('playerContextChanged', playerContext => {
+        setSongData({
+          name: playerContext.title,
+          // artist: playerContext.uri,
+        });
+      });
+
+      // setSongData({
+      //   name: playerState.track.album.name,
+      //   artist: playerState.track.artist.name,
+      // });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  const resumeSong = () => {
+    try {
+      remote.resume();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const pauseSong = () => {
+    try {
+      remote.pause();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={style.absoluteContainer}>
       <Image source={require('../../assets/logo.png')} style={style.image} />
 
       <View style={style.rightContainer}>
         <View style={style.nameContainer}>
-          <Text style={style.title}>Title</Text>
-          <Text style={style.artist}>Artist</Text>
+          <Text style={style.title}>{songData.name}</Text>
+          <Text style={style.artist}>{songData.artist}</Text>
         </View>
 
         <View style={style.iconContainer}>
-          <AntDesign name="hearto" size={30} color="#fff" />
-          <FontAwesome5 name="play" size={30} color="#fff" />
+          {/* <AntDesign name="hearto" size={30} color="#fff" /> */}
+          {isPlaying ? (
+            <TouchableOpacity onPress={() => pauseSong()}>
+              <FontAwesome5 name="pause" size={30} color="#fff" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => resumeSong()}>
+              <FontAwesome5 name="play" size={30} color="#fff" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 
 // import colors
 import Colors from '../../utils/colors';

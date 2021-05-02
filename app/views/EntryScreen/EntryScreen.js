@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 
 //Authentication handler
 import AuthenticationHandler from '../../auth/AuthenticationHandler';
+import {loginAndroidAuth} from '../../auth/SpotifyAppAuth';
 import spotify from '../../auth/Spotify';
 
 // import screens
