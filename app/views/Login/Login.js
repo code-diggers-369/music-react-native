@@ -32,13 +32,19 @@ class LoginScreen extends Component {
   state = {};
 
   onPressLogin = async () => {
-    const authHandler = new AuthenticationHandler();
+    try {
+      const authHandler = new AuthenticationHandler();
 
-    const authenticationObject = await authHandler.onLogin();
-    this.props.setAccessToken({accessToken: authenticationObject.accessToken});
-    this.props.setRefreshToken({
-      refreshToken: authenticationObject.refreshToken,
-    });
+      const authenticationObject = await authHandler.onLogin();
+      this.props.setAccessToken({
+        accessToken: authenticationObject.accessToken,
+      });
+      this.props.setRefreshToken({
+        refreshToken: authenticationObject.refreshToken,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
