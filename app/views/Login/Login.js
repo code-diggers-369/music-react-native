@@ -20,7 +20,7 @@ import {
   setAccessToken,
   setRefreshToken,
   setSigingIn,
-} from '../../auth/authenticationSlice';
+} from '../../redux/reducers/authenticationSlice';
 
 // import colors
 import Colors from '../../utils/colors';

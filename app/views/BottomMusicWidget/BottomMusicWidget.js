@@ -1,37 +1,57 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {remote} from 'react-native-spotify-remote';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {connect} from 'react-redux';
+import moment from 'moment';
+import shortText from 'text-ellipsis';
+
+import {remote} from 'react-native-spotify-remote';
+import {getAlbumImage} from '../../utils/fetchData/fetchAlbumdata';
+
+// import reducers methods
+import {setCurrentSong, setIsSongIsPause} from '../../redux/reducers/song';
 
 // import color
 import Color from '../../utils/colors';
 
-export default function BottomMusicWidget() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [songData, setSongData] = useState({});
+function BottomMusicWidget(props) {
+  const [isSongIsChanged, setIsSongIsChanged] = useState(true);
 
   useEffect(async () => {
     try {
-      remote.on('playerStateChanged', playerState => {
+      remote.on('playerStateChanged', async playerState => {
         if (playerState.isPaused) {
-          setIsPlaying(false);
+          props.setIsSongIsPause({
+            isSongIsPause: true,
+          });
         } else {
-          setIsPlaying(true);
+          props.setIsSongIsPause({
+            isSongIsPause: false,
+          });
         }
+
+        if (isSongIsChanged) {
+          var tempTime = moment.utc(playerState.track.duration);
+
+          const imageUrl = await getAlbumImage(playerState.track.uri);
+
+          props.setCurrentSong({
+            currentSong: {
+              name: playerState.track.name,
+              duration: `${tempTime.format('mm')}:${tempTime.format('ss')}`,
+              image: imageUrl,
+            },
+          });
+          setIsSongIsChanged(false);
+        }
+
+        // console.log(playerState);
       });
 
       remote.on('playerContextChanged', playerContext => {
-        setSongData({
-          name: playerContext.title,
-          // artist: playerContext.uri,
-        });
+        setIsSongIsChanged(true);
       });
-
-      // setSongData({
-      //   name: playerState.track.album.name,
-      //   artist: playerState.track.artist.name,
-      // });
     } catch (err) {
       console.log(err);
     }
@@ -55,17 +75,26 @@ export default function BottomMusicWidget() {
 
   return (
     <View style={style.absoluteContainer}>
-      <Image source={require('../../assets/logo.png')} style={style.image} />
+      <Image
+        source={
+          props.currentSong.image
+            ? {uri: props.currentSong.image}
+            : require('../../assets/logo.png')
+        }
+        style={style.image}
+      />
 
       <View style={style.rightContainer}>
         <View style={style.nameContainer}>
-          <Text style={style.title}>{songData.name}</Text>
-          <Text style={style.artist}>{songData.artist}</Text>
+          <Text style={style.title}>
+            {shortText(props.currentSong.name, 35)}
+          </Text>
+          {/* <Text style={style.artist}>{songData.artist}</Text> */}
         </View>
 
         <View style={style.iconContainer}>
           {/* <AntDesign name="hearto" size={30} color="#fff" /> */}
-          {isPlaying ? (
+          {!props.isSongIsPause ? (
             <TouchableOpacity onPress={() => pauseSong()}>
               <FontAwesome5 name="pause" size={30} color="#fff" />
             </TouchableOpacity>
@@ -100,7 +129,6 @@ const style = StyleSheet.create({
   rightContainer: {
     flex: 1,
     justifyContent: 'space-between',
-    marginLeft: 15,
     flexDirection: 'row',
   },
   nameContainer: {
@@ -115,12 +143,25 @@ const style = StyleSheet.create({
   },
   title: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 'bold',
-    margin: 10,
   },
   artist: {
     color: 'grey',
     fontSize: 18,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    isSongIsPause: state.song.isSongIsPause,
+    currentSong: state.song.currentSong,
+  };
+};
+
+const mapDispatchToProps = {
+  setCurrentSong,
+  setIsSongIsPause,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BottomMusicWidget);

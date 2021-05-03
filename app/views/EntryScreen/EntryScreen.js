@@ -18,7 +18,7 @@ import {
   setRefreshToken,
   setLoadingTrue,
   setLoadingFalse,
-} from '../../auth/authenticationSlice';
+} from '../../redux/reducers/authenticationSlice';
 
 //Navigations
 import LoginScreen from '../Login/Login';

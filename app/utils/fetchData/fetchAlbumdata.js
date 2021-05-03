@@ -20,18 +20,31 @@ const getAlbumData = async id => {
       };
     });
 
-    var tempTime = moment.duration(totalDuration);
+    var tempTime = moment.utc(totalDuration);
 
     return {
       id: id,
       name: name,
       label: label,
       tracks: dataArray,
-      totalDuration: `${tempTime.hours()}:${tempTime.minutes()}:${tempTime.seconds()}`,
+      totalDuration: `${tempTime.format('hh')}:${tempTime.format(
+        'mm',
+      )}:${tempTime.format('ss')}`,
     };
   } catch (err) {
     console.log(err);
   }
 };
 
-export {getAlbumData};
+const getAlbumImage = async uri => {
+  try {
+    var data = await spotify.getMyCurrentPlayingTrack();
+    const image = await data.body.item.album.images[0].url;
+
+    return image;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {getAlbumData, getAlbumImage};

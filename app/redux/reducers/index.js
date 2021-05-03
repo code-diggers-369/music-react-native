@@ -1,17 +1,9 @@
-// import {combineReducers} from 'redux';
-
-// // import reducers
-// import music from './music';
-
-// export default combineReducers({
-//   music,
-// });
-
 import {combineReducers} from 'redux';
-
-import authenticationSlice from '../../auth/authenticationSlice';
 import {persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import authenticationSlice from './authenticationSlice';
+import songSlice from './song';
 
 const authenticationConfig = {
   key: 'authentication',
@@ -21,6 +13,7 @@ const authenticationConfig = {
 
 const rootReducer = combineReducers({
   authentication: persistReducer(authenticationConfig, authenticationSlice),
+  song: songSlice,
 });
 
 export default rootReducer;
