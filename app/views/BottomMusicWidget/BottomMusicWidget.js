@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import shortText from 'text-ellipsis';
 
-import {remote} from 'react-native-spotify-remote';
 import {getAlbumImage} from '../../utils/fetchData/fetchAlbumdata';
 
 // import reducers methods
@@ -20,38 +19,6 @@ function BottomMusicWidget(props) {
 
   useEffect(async () => {
     try {
-      remote.on('playerStateChanged', async playerState => {
-        if (playerState.isPaused) {
-          props.setIsSongIsPause({
-            isSongIsPause: true,
-          });
-        } else {
-          props.setIsSongIsPause({
-            isSongIsPause: false,
-          });
-        }
-
-        if (isSongIsChanged) {
-          var tempTime = moment.utc(playerState.track.duration);
-
-          const imageUrl = await getAlbumImage(playerState.track.uri);
-
-          props.setCurrentSong({
-            currentSong: {
-              name: playerState.track.name,
-              duration: `${tempTime.format('mm')}:${tempTime.format('ss')}`,
-              image: imageUrl,
-            },
-          });
-          setIsSongIsChanged(false);
-        }
-
-        // console.log(playerState);
-      });
-
-      remote.on('playerContextChanged', playerContext => {
-        setIsSongIsChanged(true);
-      });
     } catch (err) {
       console.log(err);
     }

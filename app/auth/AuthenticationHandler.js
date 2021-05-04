@@ -1,5 +1,4 @@
 import {authorize, refresh} from 'react-native-app-auth';
-import {loginAndroidAuth} from '../auth/SpotifyAppAuth';
 
 class AuthenticationHandler {
   constructor() {
@@ -49,8 +48,6 @@ class AuthenticationHandler {
       // alert(JSON.stringify(result));
       console.log(result);
 
-      await loginAndroidAuth();
-
       // await Storage.setItem('access-token', result.accessToken);
       return result;
     } catch (error) {
@@ -64,7 +61,6 @@ class AuthenticationHandler {
     });
     // await Storage.setItem('access-token', result.accessToken);
 
-    await loginAndroidAuth();
     return result;
   }
 }
