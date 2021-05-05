@@ -18,7 +18,7 @@ export default function AlbumTrackList({data}) {
   useEffect(async () => {
     setTimeout(() => {
       setShowList(true);
-    }, 2000);
+    }, 700);
   }, []);
 
   return (
@@ -44,7 +44,7 @@ export default function AlbumTrackList({data}) {
 
             return (
               <TouchableOpacity
-                onPress={() => PlaySong(list.uri)}
+                onPress={() => PlaySong(list)}
                 key={i}
                 style={style.listContainer}>
                 <Text style={style.songTitle}>{list.name}</Text>

@@ -35,7 +35,7 @@ export default function AlbumPage({route, navigation}) {
 
   useEffect(async () => {
     try {
-      const albumData = await getAlbumData(data.id);
+      const albumData = await getAlbumData(data.id, data.images[0].url);
 
       setAllTrackDataInAlbum(albumData);
     } catch (err) {
@@ -45,9 +45,10 @@ export default function AlbumPage({route, navigation}) {
 
   const playAllSongs = async () => {
     try {
-      const songUri = await data.uri;
+      console.log('add ti queue');
+      // const songUri = await data.uri;
 
-      PlaySong(songUri);
+      // PlaySong(songUri);
     } catch (err) {
       console.log(err);
     }

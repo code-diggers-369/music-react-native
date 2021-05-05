@@ -1,7 +1,7 @@
 import moment from 'moment';
 import spotify from '../../auth/Spotify';
 
-const getAlbumData = async id => {
+const getAlbumData = async (id, imageUrl) => {
   try {
     const data = await spotify.getAlbum(id);
 
@@ -17,6 +17,8 @@ const getAlbumData = async id => {
         duration: list.duration_ms,
         uri: list.uri,
         artists: list.artists,
+        external_urls: list.external_urls.spotify,
+        imageUrl: imageUrl,
       };
     });
 
@@ -27,7 +29,7 @@ const getAlbumData = async id => {
       name: name,
       label: label,
       tracks: dataArray,
-      totalDuration: `${tempTime.format('hh')}:${tempTime.format(
+      totalDuration: `${tempTime.format('HH')}:${tempTime.format(
         'mm',
       )}:${tempTime.format('ss')}`,
     };

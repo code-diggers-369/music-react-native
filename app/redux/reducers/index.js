@@ -14,12 +14,17 @@ const authenticationConfig = {
   storage: AsyncStorage,
   blacklist: ['accessToken'],
 };
+const playbackConfig = {
+  key: 'playback',
+  storage: AsyncStorage,
+  blacklist: ['isPlaying'],
+};
 
 const rootReducer = combineReducers({
   authentication: persistReducer(authenticationConfig, authenticationSlice),
   song: songSlice,
   data,
-  playback,
+  playback: persistReducer(playbackConfig, playback),
 });
 
 export default rootReducer;

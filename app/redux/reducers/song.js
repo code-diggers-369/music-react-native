@@ -9,6 +9,7 @@ const songSlice = createSlice({
       duration: '',
       image: '',
     },
+    isSongIsLoaded: false,
   },
   reducers: {
     setIsSongIsPause(state, action) {
