@@ -2,14 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import moment from 'moment';
 import shortText from 'text-ellipsis';
-
-import {getAlbumImage} from '../../utils/fetchData/fetchAlbumdata';
-
-// import reducers methods
-import {setCurrentSong, setIsSongIsPause} from '../../redux/reducers/song';
 
 // import color
 import Color from '../../utils/colors';
@@ -42,26 +37,25 @@ function BottomMusicWidget(props) {
 
   return (
     <View style={style.absoluteContainer}>
-      <Image
+      {/* <Image
         source={
           props.currentSong.image
             ? {uri: props.currentSong.image}
             : require('../../assets/logo.png')
         }
         style={style.image}
-      />
+      /> */}
 
       <View style={style.rightContainer}>
         <View style={style.nameContainer}>
           <Text style={style.title}>
-            {shortText(props.currentSong.name, 35)}
+            {/* {shortText(props.currentSong.name, 35)} */}
           </Text>
           {/* <Text style={style.artist}>{songData.artist}</Text> */}
         </View>
 
         <View style={style.iconContainer}>
-          {/* <AntDesign name="hearto" size={30} color="#fff" /> */}
-          {!props.isSongIsPause ? (
+          {!true ? (
             <TouchableOpacity onPress={() => pauseSong()}>
               <FontAwesome5 name="pause" size={30} color="#fff" />
             </TouchableOpacity>
@@ -119,16 +113,4 @@ const style = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    isSongIsPause: state.song.isSongIsPause,
-    currentSong: state.song.currentSong,
-  };
-};
-
-const mapDispatchToProps = {
-  setCurrentSong,
-  setIsSongIsPause,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BottomMusicWidget);
+export default BottomMusicWidget;

@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {store} from '../redux/store';
 
@@ -17,18 +18,18 @@ async function backgroundPlayback(track) {
 module.exports = async function () {
   TrackPlayer.addEventListener('remote-play', () => {
     TrackPlayer.play();
-    // store.dispatch({type: 'set_playback', payload: true});
+    store.dispatch({type: 'set_playback', payload: true});
   });
 
   TrackPlayer.addEventListener('remote-pause', () => {
     TrackPlayer.pause();
-    // store.dispatch({type: 'set_playback', payload: false});
+    store.dispatch({type: 'set_playback', payload: false});
   });
 
   TrackPlayer.addEventListener('remote-next', async () => {
     let {playback, data} = store.getState();
     let {songs} = data;
-    let {currentTrack, shuffle, queue} = playback;
+    let {currentTrack, shuffle, queue, queueSong} = playback;
 
     if (queue) {
       const index = queueSong.findIndex(
@@ -55,7 +56,7 @@ module.exports = async function () {
   TrackPlayer.addEventListener('remote-previous', async () => {
     let {playback, data} = store.getState();
     let {songs} = data;
-    let {currentTrack, shuffle, queue} = playback;
+    let {currentTrack, shuffle, queue, queueSong} = playback;
 
     if (queue) {
       const index = queueSong.findIndex(
@@ -119,5 +120,9 @@ module.exports = async function () {
 
   TrackPlayer.addEventListener('remote-duck', () => {
     TrackPlayer.pause();
+  });
+
+  TrackPlayer.addEventListener('playback-error', () => {
+    Alert.alert('Something Want Wrong');
   });
 };

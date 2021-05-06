@@ -1,13 +1,13 @@
 const express = require('express');
-const fs = require('fs');
-const spdl = require('spdl-core').default;
+// const spdl = require('spdl-core').default;
 const Youtube = require('youtube-sr').default;
 const ytdl = require('ytdl-core');
 const cors = require('cors');
-const port = process.env.PORT || 1212;
+const ytMusic = require('node-youtube-music').default;
 
 //
 const app = express();
+const port = process.env.PORT || 1212;
 
 // use
 app.use(cors());
@@ -20,19 +20,8 @@ app.use(
 
 app.listen(port, () => console.log(`running on ${port}`));
 
-app.get('/info', async (req, res, next) => {
+app.post('/fetchinfo', async (req, res, next) => {
   try {
-    // const infos = await spdl.getInfo(
-    //   'https://open.spotify.com/track/31EK0jck80H2ScUJlBWj9i?si=8287be9786b447e6',
-    // );
-
-    // const artistsName = infos.artists.map(data => data).join('');
-
-    // const searchData = await Youtube.search(`${infos.title} ${artistsName}`, {
-    //   type: 'video',
-    //   limit: 7,
-    // });
-
     const {title, artistsName} = req.body;
 
     const searchData = await Youtube.search(`${title} ${artistsName}`, {
@@ -40,15 +29,14 @@ app.get('/info', async (req, res, next) => {
       limit: 7,
     });
 
-    var maxDuration = 0;
     var tempObj = {};
 
     searchData.forEach(data => {
       const {duration} = data;
 
-      if (duration <= 350000 && duration >= 180000 && maxDuration < duration) {
-        maxDuration = duration;
+      if (duration <= 450000 && duration >= 180000) {
         tempObj = data;
+        return;
       }
     });
 
@@ -60,5 +48,27 @@ app.get('/info', async (req, res, next) => {
     });
   } catch (err) {
     console.log(err);
+  }
+});
+
+app.post('/youtube-music', async (req, res, next) => {
+  try {
+    const {title, artistsName} = req.body;
+
+    const musics = await ytMusic.searchMusics(`${title} ${artistsName}`);
+
+    const info = await ytdl.getInfo(
+      `https://www.youtube.com/watch?v=${musics[0].youtubeId}`,
+    );
+    const format = ytdl.chooseFormat(info.formats, {filter: 'audioonly'});
+
+    res.json({
+      url: format.url,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      msg: err,
+    });
   }
 });

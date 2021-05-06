@@ -1,11 +1,40 @@
 // import spotifyWebApi from '../../auth/Spotify';
 import TrackPlayer from 'react-native-track-player';
-import {SetCurrentTrack} from '../../redux/actions/playback';
+import {
+  SetCurrentTrack,
+  setQueueTrack,
+  setQueue,
+} from '../../redux/actions/playback';
 import Axios from 'axios';
+
+const getUrlFromServer = async tempData => {
+  try {
+    const responseData = await Axios({
+      method: 'post',
+      url: 'https://confirmed-brief-roadway.glitch.me/fetchinfo',
+      data: {
+        title: tempData.name,
+        artistsName: tempData.artistsName,
+      },
+    });
+
+    const songDataObj = {
+      id: tempData.id,
+      url: responseData.data.url,
+      title: tempData.name,
+      artist: tempData.artistsName,
+      artwork: tempData.imageUrl,
+    };
+
+    return songDataObj;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const PlaySong = async data => {
   try {
-    const {name, imageUrl, artists} = data;
+    const {name, imageUrl, artists, id} = data;
 
     const artistsName = artists
       .map(ls => ls.name)
@@ -14,27 +43,51 @@ const PlaySong = async data => {
 
     console.log('start from here');
 
-    const responseData = await Axios({
-      method: 'post',
-      url: 'https://confirmed-brief-roadway.glitch.me/fetchinfo',
-      data: {
-        title: name,
-        artistsName: artistsName,
-      },
+    const songDataObj = await getUrlFromServer({
+      id,
+      name,
+      artistsName,
+      imageUrl,
     });
 
-    const songDataObj = {
-      id,
-      url: responseData.data.url,
-      title: name,
-      artist: artistsName,
-      artwork: imageUrl,
-    };
-
-    await SetCurrentTrack(songDataObj);
+    await setQueueTrack(songDataObj);
   } catch (err) {
     console.log(err);
   }
 };
 
-export {PlaySong};
+const PlayAllSongs = async data => {
+  try {
+    const tempDataArray = [];
+
+    if (data.length > 1) {
+      for (let index = 0; index < data.length; index++) {
+        const {name, imageUrl, artists, id} = data[index];
+
+        const artistsName = artists
+          .map(ls => ls.name)
+          .join()
+          .replace(',', ', ');
+
+        const songDataObj = await getUrlFromServer({
+          id,
+          name,
+          artistsName,
+          imageUrl,
+        });
+
+        tempDataArray.push(songDataObj);
+        console.log(index + 1, ' song is added');
+      }
+
+      setQueue(tempDataArray);
+      console.log('all songs are added');
+    } else {
+      await PlaySong(data[0]);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {PlaySong, PlayAllSongs};

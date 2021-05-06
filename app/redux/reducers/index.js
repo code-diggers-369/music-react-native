@@ -3,7 +3,6 @@ import {persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import authenticationSlice from './authenticationSlice';
-import songSlice from './song';
 
 //
 import data from './copy/data';
@@ -22,7 +21,6 @@ const playbackConfig = {
 
 const rootReducer = combineReducers({
   authentication: persistReducer(authenticationConfig, authenticationSlice),
-  song: songSlice,
   data,
   playback: persistReducer(playbackConfig, playback),
 });

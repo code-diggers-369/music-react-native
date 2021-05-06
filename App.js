@@ -14,6 +14,7 @@ import TrackService from './app/service/setupPlayer';
 const App = () => {
   useEffect(async () => {
     await TrackService();
+    console.log('setup player done');
   }, []);
 
   return (

@@ -9,13 +9,15 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import {useSelector, useStore} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {Wave} from 'react-native-animated-spinkit';
 
 // get album data from api
 import {getAlbumData} from '../../utils/fetchData/fetchAlbumdata';
-import {PlaySong} from '../../utils/playSongs/playSongs';
+import {PlayAllSongs} from '../../utils/playSongs/playSongs';
 
 // import componets
 import AlbumTrackList from '../../components/AlbumTrackList/AlbumTrackList';
@@ -32,6 +34,13 @@ export default function AlbumPage({route, navigation}) {
   const {goBack} = navigation;
 
   const [allTrackDataInAlbum, setAllTrackDataInAlbum] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const store = useStore();
+
+  store.subscribe(() => {
+    console.log(store.getState());
+  });
 
   useEffect(async () => {
     try {
@@ -43,12 +52,12 @@ export default function AlbumPage({route, navigation}) {
     }
   }, []);
 
-  const playAllSongs = async () => {
+  const playAllSongsWithData = async () => {
     try {
-      console.log('add ti queue');
-      // const songUri = await data.uri;
-
-      // PlaySong(songUri);
+      setIsLoading(true);
+      console.log('add to queue');
+      await PlayAllSongs(allTrackDataInAlbum.tracks);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -83,7 +92,7 @@ export default function AlbumPage({route, navigation}) {
               </View>
               <View style={styles.detailPlayButtonContainer}>
                 <TouchableOpacity
-                  onPress={() => playAllSongs()}
+                  onPress={() => playAllSongsWithData()}
                   style={styles.detailPlayButton}>
                   <FontAwesome5
                     style={styles.detailPlayButtonIcon}
@@ -99,6 +108,15 @@ export default function AlbumPage({route, navigation}) {
 
         <AlbumTrackList data={allTrackDataInAlbum} />
       </ScrollView>
+
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <Wave color="#fff" size={70} />
+          <Text style={{color: '#fff'}}>Fetching Song Data...</Text>
+        </View>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 }
@@ -183,5 +201,11 @@ const styles = StyleSheet.create({
     height: 32,
     width: 32,
     marginLeft: 15,
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+    width: width,
   },
 });
