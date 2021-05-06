@@ -8,8 +8,8 @@ const INITIAL_STATE = {
     url: '',
   },
 
-  loop: false,
-  shuffle: false,
+  loop: true,
+  shuffle: true,
   isPlaying: false,
   queue: false,
   queueSong: [],

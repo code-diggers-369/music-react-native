@@ -1,35 +1,55 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {connect, useSelector} from 'react-redux';
-import moment from 'moment';
 import shortText from 'text-ellipsis';
+import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
 
 // import color
 import Color from '../../utils/colors';
 
 function BottomMusicWidget(props) {
-  const [isSongIsChanged, setIsSongIsChanged] = useState(true);
+  const [isSongIsPlaying, setisSongIsPlaying] = useState(false);
 
-  useEffect(async () => {
-    try {
-    } catch (err) {
-      console.log(err);
+  const playBack = useSelector(state => state.playback);
+  const {artwork, title, id} = playBack.currentTrack;
+
+  const playbackState = usePlaybackState();
+
+  useEffect(() => {
+    switch (playbackState) {
+      case TrackPlayer.STATE_PAUSED:
+        setisSongIsPlaying(false);
+        break;
+      case TrackPlayer.STATE_PLAYING:
+        setisSongIsPlaying(true);
+        break;
+
+      case TrackPlayer.STATE_STOPPED:
+        setisSongIsPlaying(false);
+        break;
+
+      case TrackPlayer.STATE_NONE:
+        setisSongIsPlaying(false);
+        break;
     }
-  }, []);
+  }, [playbackState]);
 
-  const resumeSong = () => {
+  const resumeSong = async () => {
     try {
-      remote.resume();
+      if (id) {
+        await TrackPlayer.play();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const pauseSong = () => {
+  const pauseSong = async () => {
     try {
-      remote.pause();
+      if (id) {
+        await TrackPlayer.pause();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -37,25 +57,19 @@ function BottomMusicWidget(props) {
 
   return (
     <View style={style.absoluteContainer}>
-      {/* <Image
-        source={
-          props.currentSong.image
-            ? {uri: props.currentSong.image}
-            : require('../../assets/logo.png')
-        }
+      <Image
+        source={artwork ? {uri: artwork} : require('../../assets/logo.png')}
         style={style.image}
-      /> */}
+      />
 
       <View style={style.rightContainer}>
         <View style={style.nameContainer}>
-          <Text style={style.title}>
-            {/* {shortText(props.currentSong.name, 35)} */}
-          </Text>
+          <Text style={style.title}>{shortText(title, 35)}</Text>
           {/* <Text style={style.artist}>{songData.artist}</Text> */}
         </View>
 
         <View style={style.iconContainer}>
-          {!true ? (
+          {isSongIsPlaying ? (
             <TouchableOpacity onPress={() => pauseSong()}>
               <FontAwesome5 name="pause" size={30} color="#fff" />
             </TouchableOpacity>

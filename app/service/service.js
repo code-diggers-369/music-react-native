@@ -28,101 +28,91 @@ module.exports = async function () {
 
   TrackPlayer.addEventListener('remote-next', async () => {
     let {playback, data} = store.getState();
-    let {songs} = data;
     let {currentTrack, shuffle, queue, queueSong} = playback;
 
-    if (queue) {
-      const index = queueSong.findIndex(
-        data => data.index === currentTrack.index,
-      );
-      backgroundPlayback(
-        shuffle
-          ? queueSong[getRandomNumber(0, queueSong.length)]
-          : index === queueSong.length - 1
-          ? queueSong[0]
-          : queueSong[index + 1],
-      );
-    } else {
-      backgroundPlayback(
-        shuffle
-          ? songs[getRandomNumber(0, songs.length)]
-          : currentTrack.index === songs.length - 1
-          ? songs[0]
-          : songs[currentTrack.index + 1],
-      );
+    if (queueSong.length <= 1) {
+      return;
     }
+
+    const index = queueSong.findIndex(
+      data => data.index === currentTrack.index,
+    );
+    backgroundPlayback(
+      shuffle
+        ? queueSong[getRandomNumber(0, queueSong.length)]
+        : index === queueSong.length - 1
+        ? queueSong[0]
+        : queueSong[index + 1],
+    );
   });
 
   TrackPlayer.addEventListener('remote-previous', async () => {
     let {playback, data} = store.getState();
-    let {songs} = data;
     let {currentTrack, shuffle, queue, queueSong} = playback;
 
-    if (queue) {
-      const index = queueSong.findIndex(
-        data => data.index === currentTrack.index,
-      );
-      backgroundPlayback(
-        shuffle
-          ? queueSong[getRandomNumber(0, queueSong.length)]
-          : index === 0
-          ? queueSong[queueSong.length - 1]
-          : queueSong[index - 1],
-      );
-    } else {
-      backgroundPlayback(
-        shuffle
-          ? songs[getRandomNumber(0, songs.length)]
-          : currentTrack.index === 0
-          ? songs[songs.length - 1]
-          : songs[currentTrack.index - 1],
-      );
+    if (queueSong.length <= 1) {
+      return;
     }
+
+    const index = queueSong.findIndex(
+      data => data.index === currentTrack.index,
+    );
+    backgroundPlayback(
+      shuffle
+        ? queueSong[getRandomNumber(0, queueSong.length)]
+        : index === 0
+        ? queueSong[queueSong.length - 1]
+        : queueSong[index - 1],
+    );
   });
 
   TrackPlayer.addEventListener('playback-queue-ended', async ({position}) => {
-    let {playback, data} = store.getState();
-    let {songs} = data;
+    let {playback} = store.getState();
     let {currentTrack, shuffle, loop, queue, queueSong} = playback;
 
     if (position > 0) {
       if (loop) {
         backgroundPlayback(currentTrack);
       } else {
-        if (queue) {
-          const index = queueSong.findIndex(
-            data => data.index === currentTrack.index,
-          );
-
-          backgroundPlayback(
-            shuffle
-              ? queueSong[getRandomNumber(0, queueSong.length)]
-              : index === queueSong.length - 1
-              ? queueSong[0]
-              : queueSong[index + 1],
-          );
-        } else {
-          backgroundPlayback(
-            shuffle
-              ? songs[getRandomNumber(0, songs.length)]
-              : currentTrack.index === songs.length - 1
-              ? songs[0]
-              : songs[currentTrack.index + 1],
-          );
+        if (queueSong.length <= 1) {
+          return;
         }
+
+        const index = queueSong.findIndex(
+          data => data.index === currentTrack.index,
+        );
+
+        backgroundPlayback(
+          shuffle
+            ? queueSong[getRandomNumber(0, queueSong.length)]
+            : index === queueSong.length - 1
+            ? queueSong[0]
+            : queueSong[index + 1],
+        );
       }
     }
   });
 
+  TrackPlayer.addEventListener('remote-skip', data => {
+    console.log(data);
+  });
+
   TrackPlayer.addEventListener('remote-stop', () => {
-    TrackPlayer.destroy();
+    // TrackPlayer.destroy();
+    TrackPlayer.stop();
   });
 
   TrackPlayer.addEventListener('remote-duck', () => {
     TrackPlayer.pause();
   });
 
-  TrackPlayer.addEventListener('playback-error', () => {
-    Alert.alert('Something Want Wrong');
+  TrackPlayer.addEventListener('playback-error', async data => {
+    await TrackPlayer.skipToNext();
+
+    console.log(data);
   });
 };
+
+function getRandomNumber(starting, ending) {
+  return Math.floor(Math.random() * ending);
+}

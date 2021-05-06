@@ -33,6 +33,7 @@ export const setQueueTrack = async currentTrack => {
     dispatch({type: 'MOST_PLAYED', payload: {currentTrack, count: 0}});
   } catch (e) {
     // do nothing lmao
+    console.log(e);
   }
 };
 

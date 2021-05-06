@@ -36,12 +36,6 @@ export default function AlbumPage({route, navigation}) {
   const [allTrackDataInAlbum, setAllTrackDataInAlbum] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const store = useStore();
-
-  store.subscribe(() => {
-    console.log(store.getState());
-  });
-
   useEffect(async () => {
     try {
       const albumData = await getAlbumData(data.id, data.images[0].url);

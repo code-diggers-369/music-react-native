@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import authenticationSlice from './authenticationSlice';
 
 //
-import data from './copy/data';
 import playback from './copy/playback';
 
 const authenticationConfig = {
@@ -21,8 +20,8 @@ const playbackConfig = {
 
 const rootReducer = combineReducers({
   authentication: persistReducer(authenticationConfig, authenticationSlice),
-  data,
-  playback: persistReducer(playbackConfig, playback),
+  // playback: persistReducer(playbackConfig, playback),
+  playback: playback,
 });
 
 export default rootReducer;

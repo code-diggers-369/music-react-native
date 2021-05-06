@@ -19,6 +19,7 @@ async function Setup() {
       TrackPlayer.CAPABILITY_SEEK_TO,
       TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
       TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+      TrackPlayer.CAPABILITY_PLAY_FROM_ID,
     ],
     icon: require('../assets/logo.png'),
   });
