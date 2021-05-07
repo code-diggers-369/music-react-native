@@ -16,14 +16,14 @@ import Playlist from '../../../components/Playlist/Playlist';
 
 const {height} = Dimensions.get('screen');
 
-export default function Playlists() {
+export default function Playlists(props) {
   const [playlistData, setPlaylistData] = useState([]);
 
   useEffect(async () => {
     const data = await getPlaylists();
 
     setPlaylistData(data);
-  }, []);
+  }, [props.refreshPage]);
 
   return (
     <View>

@@ -100,7 +100,10 @@ export default function AlbumPage({route, navigation}) {
           </LinearGradient>
         </View>
 
-        <AlbumTrackList data={allTrackDataInAlbum} />
+        <AlbumTrackList
+          data={allTrackDataInAlbum}
+          setIsLoading={setIsLoading}
+        />
       </ScrollView>
 
       {isLoading ? (

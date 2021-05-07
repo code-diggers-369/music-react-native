@@ -12,7 +12,7 @@ import {PlaySong} from '../../utils/playSongs/playSongs';
 // get dimention
 const {height, width} = Dimensions.get('screen');
 
-export default function AlbumTrackList({data}) {
+export default function AlbumTrackList({data, setIsLoading}) {
   const [showList, setShowList] = useState(false);
 
   useEffect(async () => {
@@ -44,7 +44,11 @@ export default function AlbumTrackList({data}) {
 
             return (
               <TouchableOpacity
-                onPress={() => PlaySong(list)}
+                onPress={async () => {
+                  setIsLoading(true);
+                  await PlaySong(list);
+                  setIsLoading(false);
+                }}
                 key={i}
                 style={style.listContainer}>
                 <Text style={style.songTitle}>{list.name}</Text>

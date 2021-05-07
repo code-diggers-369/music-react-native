@@ -99,19 +99,19 @@ class EntryScreen extends Component {
       return <SplashScreen />;
     }
 
-    if (loading) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#000',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#fff'}}>Loading</Text>
-        </View>
-      );
-    }
+    // if (loading) {
+    //   return (
+    //     <View
+    //       style={{
+    //         flex: 1,
+    //         backgroundColor: '#000',
+    //         justifyContent: 'center',
+    //         alignItems: 'center',
+    //       }}>
+    //       <Text style={{color: '#fff'}}>Loading</Text>
+    //     </View>
+    //   );
+    // }
 
     if (accessToken) {
       return (

@@ -31,6 +31,8 @@ export const setQueueTrack = async currentTrack => {
 
     dispatch({type: 'RECENTLY_PLAYED', payload: currentTrack});
     dispatch({type: 'MOST_PLAYED', payload: {currentTrack, count: 0}});
+
+    dispatch({type: 'ADD_SONG_IN_QUEUE', payload: currentTrack});
   } catch (e) {
     // do nothing lmao
     console.log(e);

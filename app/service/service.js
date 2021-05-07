@@ -35,8 +35,10 @@ module.exports = async function () {
     }
 
     const index = queueSong.findIndex(
-      data => data.index === currentTrack.index,
+      // data => data.index === currentTrack.index,
+      data => data.id === currentTrack.id,
     );
+
     backgroundPlayback(
       shuffle
         ? queueSong[getRandomNumber(0, queueSong.length)]
@@ -55,8 +57,10 @@ module.exports = async function () {
     }
 
     const index = queueSong.findIndex(
-      data => data.index === currentTrack.index,
+      // data => data.index === currentTrack.index,
+      data => data.id === currentTrack.id,
     );
+
     backgroundPlayback(
       shuffle
         ? queueSong[getRandomNumber(0, queueSong.length)]
@@ -107,9 +111,21 @@ module.exports = async function () {
   });
 
   TrackPlayer.addEventListener('playback-error', async data => {
-    await TrackPlayer.skipToNext();
+    try {
+      let {playback, data} = store.getState();
+      let {currentTrack, queueSong} = playback;
 
-    console.log(data);
+      const index = queueSong.findIndex(data => data.id === currentTrack.id);
+      store.dispatch({type: 'REMOVE_SONG_FROM_QUEUE', payload: index});
+
+      if (queueSong.length < 2) {
+        await TrackPlayer.stop();
+      } else {
+        await TrackPlayer.skipToPrevious();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   });
 };
 

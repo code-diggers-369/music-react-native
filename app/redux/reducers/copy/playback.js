@@ -8,8 +8,8 @@ const INITIAL_STATE = {
     url: '',
   },
 
-  loop: true,
-  shuffle: true,
+  loop: false,
+  shuffle: false,
   isPlaying: false,
   queue: false,
   queueSong: [],
@@ -28,7 +28,16 @@ export default function (state = INITIAL_STATE, action) {
     case 'SET_QUEUE':
       return {...state, queue: action.payload};
     case 'SET_QUEUE_SONG':
-      return {...state, queueSong: action.payload};
+      return {...state, queueSong: [...state.queueSong, action.payload]};
+    case 'ADD_SONG_IN_QUEUE':
+      return {...state, queueSong: [...state.queueSong, action.payload]};
+    case 'REMOVE_SONG_FROM_QUEUE':
+      const tempData = state.queueSong.filter((list, index) => {
+        if (index != action.payload) {
+          return list;
+        }
+      });
+      return {...state, queueSong: tempData};
     default:
       return state;
   }

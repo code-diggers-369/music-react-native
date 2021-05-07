@@ -56,30 +56,36 @@ function BottomMusicWidget(props) {
   };
 
   return (
-    <View style={style.absoluteContainer}>
-      <Image
-        source={artwork ? {uri: artwork} : require('../../assets/logo.png')}
-        style={style.image}
-      />
+    <View>
+      {playBack.currentTrack.title ? (
+        <View style={style.absoluteContainer}>
+          <Image
+            source={artwork ? {uri: artwork} : require('../../assets/logo.png')}
+            style={style.image}
+          />
 
-      <View style={style.rightContainer}>
-        <View style={style.nameContainer}>
-          <Text style={style.title}>{shortText(title, 35)}</Text>
-          {/* <Text style={style.artist}>{songData.artist}</Text> */}
-        </View>
+          <View style={style.rightContainer}>
+            <View style={style.nameContainer}>
+              <Text style={style.title}>{shortText(title, 35)}</Text>
+              {/* <Text style={style.artist}>{songData.artist}</Text> */}
+            </View>
 
-        <View style={style.iconContainer}>
-          {isSongIsPlaying ? (
-            <TouchableOpacity onPress={() => pauseSong()}>
-              <FontAwesome5 name="pause" size={30} color="#fff" />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => resumeSong()}>
-              <FontAwesome5 name="play" size={30} color="#fff" />
-            </TouchableOpacity>
-          )}
+            <View style={style.iconContainer}>
+              {isSongIsPlaying ? (
+                <TouchableOpacity onPress={() => pauseSong()}>
+                  <FontAwesome5 name="pause" size={30} color="#fff" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={() => resumeSong()}>
+                  <FontAwesome5 name="play" size={30} color="#fff" />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 }
