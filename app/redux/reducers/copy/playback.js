@@ -28,7 +28,7 @@ export default function (state = INITIAL_STATE, action) {
     case 'SET_QUEUE':
       return {...state, queue: action.payload};
     case 'SET_QUEUE_SONG':
-      return {...state, queueSong: [...state.queueSong, action.payload]};
+      return {...state, queueSong: action.payload};
     case 'ADD_SONG_IN_QUEUE':
       return {...state, queueSong: [...state.queueSong, action.payload]};
     case 'REMOVE_SONG_FROM_QUEUE':

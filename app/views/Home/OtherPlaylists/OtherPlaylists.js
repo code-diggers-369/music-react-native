@@ -27,7 +27,7 @@ export default function Playlists(props) {
 
   return (
     <View>
-      {playlistData && playlistData.length > 0 ? (
+      {playlistData && playlistData != undefined && playlistData.length > 0 ? (
         playlistData.map((list, index) => {
           if (list.songsList.length > 2) {
             return <Playlist listData={list} key={index} />;

@@ -9,12 +9,21 @@ import {
 } from 'react-native';
 import shortText from 'text-ellipsis';
 import {useNavigation} from '@react-navigation/native';
+import MarqueeText from 'react-native-text-ticker';
 
 export default function Playlist({listData}) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}>{listData.name}</Text>
+      <MarqueeText
+        style={styles.titleText}
+        duration={20000}
+        loop
+        repeatSpacer={50}
+        marqueeDelay={1000}>
+        {listData.name}
+      </MarqueeText>
+      {/* <Text style={styles.titleText}> {listData.name}</Text> */}
 
       <ScrollView
         horizontal={true}

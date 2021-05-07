@@ -4,15 +4,18 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {connect, useSelector} from 'react-redux';
 import shortText from 'text-ellipsis';
 import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
+import MarqueeText from 'react-native-text-ticker';
+import {useNavigation} from '@react-navigation/native';
 
 // import color
 import Color from '../../utils/colors';
 
 function BottomMusicWidget(props) {
   const [isSongIsPlaying, setisSongIsPlaying] = useState(false);
+  const navigation = useNavigation();
 
   const playBack = useSelector(state => state.playback);
-  const {artwork, title, id} = playBack.currentTrack;
+  const {artwork, title, id, artist} = playBack.currentTrack;
 
   const playbackState = usePlaybackState();
 
@@ -59,16 +62,40 @@ function BottomMusicWidget(props) {
     <View>
       {playBack.currentTrack.title ? (
         <View style={style.absoluteContainer}>
-          <Image
-            source={artwork ? {uri: artwork} : require('../../assets/logo.png')}
-            style={style.image}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate('PlayerPage')}>
+            <Image
+              source={
+                artwork ? {uri: artwork} : require('../../assets/logo.png')
+              }
+              style={style.image}
+            />
+          </TouchableOpacity>
 
           <View style={style.rightContainer}>
-            <View style={style.nameContainer}>
-              <Text style={style.title}>{shortText(title, 35)}</Text>
-              {/* <Text style={style.artist}>{songData.artist}</Text> */}
-            </View>
+            <TouchableOpacity
+              style={style.nameContainer}
+              onPress={() => navigation.navigate('PlayerPage')}>
+              <View>
+                <MarqueeText
+                  style={style.title}
+                  duration={15000}
+                  loop
+                  repeatSpacer={50}
+                  marqueeDelay={1000}>
+                  {title}
+                </MarqueeText>
+                <MarqueeText
+                  style={style.artist}
+                  duration={20000}
+                  loop
+                  repeatSpacer={50}
+                  marqueeDelay={1000}>
+                  {artist}
+                </MarqueeText>
+                {/* <Text style={style.title}>{shortText(title, 27)}</Text>
+              <Text style={style.artist}>{shortText(artist, 30)}</Text> */}
+              </View>
+            </TouchableOpacity>
 
             <View style={style.iconContainer}>
               {isSongIsPlaying ? (
@@ -113,14 +140,16 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   nameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
   },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    width: 100,
+    width: 80,
   },
   title: {
     color: '#fff',
@@ -129,7 +158,7 @@ const style = StyleSheet.create({
   },
   artist: {
     color: 'grey',
-    fontSize: 18,
+    fontSize: 13,
   },
 });
 
