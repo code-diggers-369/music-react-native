@@ -9,7 +9,6 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import {useSelector, useStore} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -35,6 +34,7 @@ export default function AlbumPage({route, navigation}) {
 
   const [allTrackDataInAlbum, setAllTrackDataInAlbum] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [songCount, setSongCount] = useState(`0/0`);
 
   useEffect(async () => {
     try {
@@ -50,7 +50,7 @@ export default function AlbumPage({route, navigation}) {
     try {
       setIsLoading(true);
       console.log('add to queue');
-      await PlayAllSongs(allTrackDataInAlbum.tracks);
+      await PlayAllSongs(allTrackDataInAlbum.tracks, setSongCount);
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -109,7 +109,7 @@ export default function AlbumPage({route, navigation}) {
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <Wave color="#fff" size={70} />
-          <Text style={{color: '#fff'}}>Fetching Song Data...</Text>
+          <Text style={{color: '#fff'}}>Fetching Song Data ({songCount})</Text>
         </View>
       ) : (
         <View></View>

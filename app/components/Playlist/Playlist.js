@@ -31,36 +31,38 @@ export default function Playlist({listData}) {
         style={styles.albumScrollContainer}>
         {listData
           ? listData.songsList.map((ls, i) => {
-              return (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() =>
-                    navigation.navigate('AlbumPage', {
-                      data: ls,
-                    })
-                  }>
-                  <Image
-                    style={styles.albumScrollImg}
-                    source={{
-                      uri: ls.images.length > 0 ? ls.images[0].url : null,
-                    }}
-                  />
-                  <View style={styles.albumTextContainer}>
-                    <View>
-                      <Text style={styles.albumTextTitle}>
-                        {shortText(ls.name, 40)}
-                      </Text>
-                      {/* <Text style={styles.albumTextYear}>{ls.year}</Text> */}
-                    </View>
-                    {/* <View>
+              if (ls.images[0].url != null) {
+                return (
+                  <TouchableOpacity
+                    key={i}
+                    onPress={() =>
+                      navigation.navigate('AlbumPage', {
+                        data: ls,
+                      })
+                    }>
+                    <Image
+                      style={styles.albumScrollImg}
+                      source={{
+                        uri: ls.images.length > 0 ? ls.images[0].url : null,
+                      }}
+                    />
+                    <View style={styles.albumTextContainer}>
+                      <View>
+                        <Text style={styles.albumTextTitle}>
+                          {shortText(ls.name, 40)}
+                        </Text>
+                        {/* <Text style={styles.albumTextYear}>{ls.year}</Text> */}
+                      </View>
+                      {/* <View>
                         <Image
                           style={styles.albumExpli}
                           source={require('../../../assets/logo.png')}
                         />
                       </View> */}
-                  </View>
-                </TouchableOpacity>
-              );
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
             })
           : null}
       </ScrollView>
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginVertical: 10,
+    marginHorizontal: 10,
   },
   albumScrollImg: {
     height: 156,

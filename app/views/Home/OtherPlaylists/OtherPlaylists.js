@@ -36,8 +36,6 @@ export default function Playlists(props) {
           playlistData.map((list, index) => {
             if (list.songsList.length > 2) {
               return <Playlist listData={list} key={index} />;
-            } else {
-              return null;
             }
           })
         ) : (

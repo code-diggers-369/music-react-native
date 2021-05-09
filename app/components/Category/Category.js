@@ -16,10 +16,10 @@ import {
 const ScreenWidth = Dimensions.get('window').width;
 import Colors from '../../utils/colors';
 
-function Category({categoryData}) {
-  const displayCategory = async id => {
+function Category({categoryData, setSearchText}) {
+  const displayCategory = async name => {
     try {
-      //   const tempData = await getCategoryDataById(id);
+      await setSearchText(name);
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +28,7 @@ function Category({categoryData}) {
   const renderItems = ({item}) => (
     <TouchableOpacity
       style={styles.item}
-      onPress={() => displayCategory(item.id)}>
+      onPress={() => displayCategory(item.name)}>
       <Image style={styles.imageContainer} source={{uri: item.icons[0].url}} />
 
       <Text style={styles.title}>{item.name}</Text>
@@ -52,8 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginVertical: 20,
-    marginTop: 20,
+    marginVertical: 20,
   },
   item: {
     width: (ScreenWidth - 40) / 2 - 10,
@@ -72,6 +71,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: 150,
     width: 150,
+    borderRadius: 7,
   },
 });
 

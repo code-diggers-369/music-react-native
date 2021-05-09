@@ -1,18 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Colors from '../../utils/colors';
 import SearchBar from 'react-native-dynamic-search-bar';
 import {Wave} from 'react-native-animated-spinkit';
 
 // fetch data
 import {getCategoryData} from '../../utils/fetchData/fetchCategorydata';
+import {getSearchdata} from '../../utils/fetchData/fetchSearchdata';
 
 // fetch component
 import Category from '../../components/Category/Category';
+import SearchResult from '../../components/SearchResult/SearchResult';
 
 export default function Search() {
   const [searchText, setSearchText] = useState('');
+  const [searchDataResult, setSearchDataResult] = useState([]);
+
   const [categoryList, setCategoryList] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
 
   useEffect(async () => {
     try {
@@ -24,6 +29,32 @@ export default function Search() {
     }
   }, []);
 
+  useEffect(async () => {
+    try {
+      if (searchText) {
+        const data = await getSearchdata(searchText, pageNo);
+
+        setSearchDataResult(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [searchText]);
+
+  useEffect(async () => {
+    try {
+      if (searchText) {
+        setTimeout(async () => {
+          const data = await getSearchdata(searchText, pageNo);
+
+          setSearchDataResult(searchDataResult.concat(data));
+        }, 5000);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [pageNo]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.searchText}>Search</Text>
@@ -31,14 +62,24 @@ export default function Search() {
       <SearchBar
         placeholder="Search song here"
         value={searchText}
-        onChangeText={text => setSearchText(text)}
+        onChangeText={text => {
+          setSearchText(text);
+          setPageNo(1);
+        }}
+        onClearPress={() => {
+          setSearchText('');
+          setPageNo(1);
+        }}
       />
 
       <View style={{flex: 1}}>
         {searchText.length <= 0 ? (
           <View style={{flex: 1}}>
             {categoryList.length > 0 ? (
-              <Category categoryData={categoryList} />
+              <Category
+                categoryData={categoryList}
+                setSearchText={setSearchText}
+              />
             ) : (
               <View
                 style={{
@@ -51,7 +92,13 @@ export default function Search() {
             )}
           </View>
         ) : (
-          <View></View>
+          <View style={{flex: 1, marginTop: 20}}>
+            <SearchResult
+              searchDataResult={searchDataResult}
+              setPageNo={setPageNo}
+              pageNo={pageNo}
+            />
+          </View>
         )}
       </View>
     </View>

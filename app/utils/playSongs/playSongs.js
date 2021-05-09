@@ -10,9 +10,13 @@ import Restart from 'react-native-restart';
 
 const getUrlFromServer = async tempData => {
   try {
-    var timeout = setTimeout(() => {
-      clearTimeout(timeout);
-      return null;
+    var timeout = setTimeout(async () => {
+      try {
+        clearTimeout(timeout);
+        return null;
+      } catch (err) {
+        console.log(err);
+      }
     }, 20000);
 
     const responseData = await Axios({
@@ -62,12 +66,14 @@ const PlaySong = async data => {
   }
 };
 
-const PlayAllSongs = async data => {
+const PlayAllSongs = async (data, setSongCount) => {
   try {
     const tempDataArray = [];
 
     if (data.length > 1) {
       for (let index = 0; index < data.length; index++) {
+        setSongCount(`${index + 1} / ${data.length}`);
+
         const {name, imageUrl, artists, id} = data[index];
 
         const artistsName = artists
