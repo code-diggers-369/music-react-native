@@ -32,12 +32,7 @@ export default function (state = INITIAL_STATE, action) {
     case 'ADD_SONG_IN_QUEUE':
       return {...state, queueSong: [...state.queueSong, action.payload]};
     case 'REMOVE_SONG_FROM_QUEUE':
-      const tempData = state.queueSong.filter((list, index) => {
-        if (index != action.payload) {
-          return list;
-        }
-      });
-      return {...state, queueSong: tempData};
+      return {...state, queueSong: action.payload};
     default:
       return state;
   }

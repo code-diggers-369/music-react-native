@@ -6,9 +6,15 @@ import {
   setQueue,
 } from '../../redux/actions/playback';
 import Axios from 'axios';
+import Restart from 'react-native-restart';
 
 const getUrlFromServer = async tempData => {
   try {
+    var timeout = setTimeout(() => {
+      clearTimeout(timeout);
+      return null;
+    }, 20000);
+
     const responseData = await Axios({
       method: 'post',
       url: 'https://confirmed-brief-roadway.glitch.me/fetchinfo',
@@ -75,9 +81,12 @@ const PlayAllSongs = async data => {
           artistsName,
           imageUrl,
         });
-
-        tempDataArray.push(songDataObj);
-        console.log(index + 1, ' song is added');
+        if (songDataObj != null) {
+          tempDataArray.push(songDataObj);
+          console.log(index + 1, ' song is added');
+        } else {
+          console.log('unavailable song', name);
+        }
       }
 
       setQueue(tempDataArray);
@@ -86,6 +95,8 @@ const PlayAllSongs = async data => {
       await PlaySong(data[0]);
     }
   } catch (err) {
+    Restart.Restart();
+
     console.log(err);
   }
 };
