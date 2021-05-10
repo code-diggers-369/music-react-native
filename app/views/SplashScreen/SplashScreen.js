@@ -6,11 +6,13 @@ export default function SplashScreen() {
   return (
     <SafeAreaView style={style.container}>
       <Image
-        source={require('../../assets/logo2.png')}
+        source={require('../../assets/mainlogo2.png')}
         style={{width: 250, height: 250}}
       />
 
       <Text style={style.text}>Music</Text>
+
+      <Text style={style.footer}>Made With ♥ In India</Text>
     </SafeAreaView>
   );
 }
@@ -26,5 +28,10 @@ const style = StyleSheet.create({
     color: '#fff',
     fontSize: 35,
     marginTop: 10,
+  },
+  footer: {
+    color: '#fff',
+    position: 'absolute',
+    bottom: 30,
   },
 });
