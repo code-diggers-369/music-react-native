@@ -19,6 +19,8 @@ export default function Search() {
   const [categoryList, setCategoryList] = useState([]);
   const [pageNo, setPageNo] = useState(1);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(async () => {
     try {
       const categoryData = await getCategoryData();
@@ -44,11 +46,11 @@ export default function Search() {
   useEffect(async () => {
     try {
       if (searchText) {
-        setTimeout(async () => {
-          const data = await getSearchdata(searchText, pageNo);
+        setIsLoading(true);
+        const data = await getSearchdata(searchText, pageNo);
 
-          setSearchDataResult(searchDataResult.concat(data));
-        }, 5000);
+        setSearchDataResult([...searchDataResult, ...data]);
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -97,6 +99,7 @@ export default function Search() {
               searchDataResult={searchDataResult}
               setPageNo={setPageNo}
               pageNo={pageNo}
+              isLoading={isLoading}
             />
           </View>
         )}

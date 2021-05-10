@@ -11,7 +11,6 @@ import Colors from '../utils/colors';
 // import screen
 import Home from '../views/Home/Home';
 import Search from '../views/Search/Search';
-import Library from '../views/Library/Library';
 import Profile from '../views/Profile/Profile';
 
 export default function bottomNavigation() {
@@ -43,16 +42,7 @@ export default function bottomNavigation() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Library"
-        component={Library}
-        options={{
-          tabBarLabel: 'Your Library',
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="list" color={color} size={size} />
-          ),
-        }}
-      />
+
       <Tab.Screen
         name="Profile"
         component={Profile}

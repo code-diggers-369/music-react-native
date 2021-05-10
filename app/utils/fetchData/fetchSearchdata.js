@@ -5,6 +5,7 @@ const getSearchdata = async (search, pageNo) => {
   try {
     const data = await spotify.searchAlbums(search, {
       offset: pageNo,
+      country: 'IN',
     });
 
     const {albums} = data.body;
