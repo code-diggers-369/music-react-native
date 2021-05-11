@@ -60,7 +60,7 @@ function Profile(props) {
         <View style={styles.topContainer}>
           <View style={styles.roundView}>
             <Text style={styles.roundViewInnerText}>
-              {userData.name.substr(0, 1)}
+              {userData.name.substr(0, 1).toUpperCase()}
             </Text>
           </View>
 

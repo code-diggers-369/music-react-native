@@ -72,6 +72,7 @@ export default function SearchResult({
           borderRadius: 10,
           marginHorizontal: 10,
           marginVertical: 20,
+          marginBottom: 100,
           padding: 10,
         }}>
         {!isLoading ? (

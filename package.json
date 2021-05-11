@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "clean": "cd android && gradlew clean"
+    "clean": "cd android && gradlew clean",
+    "build": "cd android && gradlew assembleRelease"
   },
   "dependencies": {
     "@freakycoder/react-native-bounceable": "^0.2.5",
