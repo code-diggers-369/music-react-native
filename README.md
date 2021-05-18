@@ -6,6 +6,8 @@ Check It Live:- https://drive.google.com/file/d/13nq4b_QxkO0a4CusU6tcD-KGgD_CwlI
 
 Follow On Instagram:- https://www.instagram.com/code.diggers/
 
+<a href="https://www.buymeacoffee.com/hareshprajapati"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=hareshprajapati&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
+
 ## Setup 
 
 upload server code to your own server or use mine which is already linked in this project
